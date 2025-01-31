@@ -52,7 +52,12 @@ def getTopWallets(pnl_limit):
         pool_id = 12883711
         grabTopTradersURL = f"https://photon-sol.tinyastro.io/api/events/top_traders?order_by=timestamp&order_dir=desc&pool_id={pool_id}&page=1"
 
-        response = session.get(grabTopTradersURL, headers=headers, cookies=cookies).json()
+        response = session.get(grabTopTradersURL, headers=headers, cookies=cookies)
+        if response.status_code == 200:
+            data = response.json()
+        else:
+            print(f"Error: Received status code {response.status_code}")
+            return []  # or handle the error as needed
         updated_cookies = session.cookies
         # print('first ---- updated_cookies', updated_cookies)
         
